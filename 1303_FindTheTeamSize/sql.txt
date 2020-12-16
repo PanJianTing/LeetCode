@@ -1,0 +1,1 @@
+SELECT employee_id, count(team_id) OVER (PARTITION by team_id) as team_size FROM Employee ORDER BY employee_id
