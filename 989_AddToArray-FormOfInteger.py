@@ -73,3 +73,61 @@ class Solution:
             num.append(1)
             
         return num[::-1]
+    
+from itertools import zip_longest
+
+class Solution:
+    def addToArrayForm(self, num: list[int], k: int) -> list[int]:
+
+        num = num[::-1]
+        ks = []
+
+        while k > 0:
+            ks.append(k%10)
+            k = k // 10
+
+        print(ks, num)
+
+        res = []
+
+        carry = 0
+        for i, j in zip_longest(num, ks):
+            if i == None:
+                i = 0
+            if j == None:
+                j = 0
+
+            add = i + j + carry
+
+            carry = add // 10
+            res.append(add % 10)
+        
+        if carry == 1:
+            res.append(carry)
+        return res[::-1]
+
+    def addToArrayForm(self, num: list[int], k: int) -> list[int]:
+
+        # carry = 0
+        for i in range(len(num) - 1, -1, -1):
+            add = num[i] + k
+            num[i] = add % 10
+            k = add // 10
+
+        if k > 0:
+            num = list(map(int, str(k))) + num
+            
+
+        return num
+
+    def addToArrayForm(self, num: list[int], k: int) -> list[int]:
+        num[-1] += k
+        for i in range(len(num) - 1, -1, -1):
+            carry, num[i] = divmod(num[i], 10)
+            if i:
+                num[i-1] += carry
+
+        if carry:
+            num = list(map(int, str(carry))) + num
+
+        return num
