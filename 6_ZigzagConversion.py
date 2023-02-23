@@ -53,3 +53,34 @@ class Solution:
 			right -= 1
 
 		return res
+	
+	def convert(self, s: str, numRows: int) -> str:
+		isAdd = True
+		row = 1
+		rowMap = {}
+
+		if numRows == 1:
+			return s
+
+
+		for i in range(0, numRows):
+			rowMap[i+1] = ""
+			
+		for c in s:
+			rowMap[row] += c
+			if row == numRows:
+				isAdd = False
+			elif row == 1:
+				isAdd = True
+				
+			if isAdd:
+				row += 1
+			else:
+				row -= 1
+
+		res = ""
+		for key in rowMap.keys():
+			res += rowMap[key]
+        
+        # print(res)
+		return res
