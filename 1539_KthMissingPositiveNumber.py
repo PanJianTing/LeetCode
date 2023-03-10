@@ -146,6 +146,29 @@ class Solution:
         # = k + left (because right = left + 1)
 
         return k + left
+    
+    def findKthPositive(self, arr: list[int], k: int) -> int:
+
+        left = 0
+        right = len(arr)
+
+        while left < right:
+            pivot = left + ((right - left) >> 1)
+
+            if arr[pivot] - pivot - 1 < k:
+                left = pivot + 1
+            else:
+                right = pivot
+
+
+        print(left, right)
+
+        # arr[right] + (k - (arr[right] - (right+1)))
+        # = arr[right] + k - arr[right] + right + 1
+        # = k + (right + 1)
+        # = k + left (because right = left + 1)
+
+        return k + left
 
 print(Solution().findKthPositive([2,3,4,7,11], 5))  #9
 print(Solution().findKthPositive([1,2,3,4], 2))     #6
