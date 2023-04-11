@@ -1,26 +1,39 @@
+class Solution:
+	def anagramMappings(A: list[int], B: list[int]) -> list[int]:
 
-def anagramMappings(A:List[int], B:List[int]) -> List[int]:
+		mapdict = {}
 
-	mapdict = {}
+		for i in range(0,len(B)):
+			mapdict[B[i]] = i
 
-	for i in range(0,len(B)):
-		mapdict[B[i]] = i
+		print(mapdict)
 
-	print(mapdict)
+		ansArray = []
+		for i in range(0,len(A)):
+			ansArray.append(mapdict[A[i]])
 
-	ansArray = []
-	for i in range(0,len(A)):
-		ansArray.append(mapdict[A[i]])
-
-	return ansArray 
+		return ansArray 
 
 
-def anagramMappings_my(A:List[int], B:List[int]) -> List[int]:
+	def anagramMappings_my(A: list[int], B: list[int]) -> list[int]:
 
-	ansArray = []
-	for i in xrange(0,len(A)):
-		for j in xrange(0,len(B)):
-			if A[i] == B[j]:
-				ansArray[i] = j
+		ansArray = []
+		for i in range(0,len(A)):
+			for j in range(0,len(B)):
+				if A[i] == B[j]:
+					ansArray[i] = j
 
-	return ansArray
+		return ansArray
+	
+
+class Solution:
+    def anagramMappings(self, nums1: list[int], nums2: list[int]) -> list[int]:
+        mapping = {}
+        for i, count in enumerate(nums2):
+            mapping[count] = i
+        
+        ans = []
+        for count in nums1:
+            ans.append(mapping[count])
+
+        return ans
