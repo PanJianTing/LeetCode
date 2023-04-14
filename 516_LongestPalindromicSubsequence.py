@@ -41,22 +41,22 @@ class Solution:
         print(dp)
         return dp[0][len(s)-1]
     
-    # def longestPalindromeSubseq(self, s: str) -> int:
+    def longestPalindromeSubseq(self, s: str) -> int:
 
-    #     dp = [0 for _ in range(len(s))]
-    #     dpPre = [0 for _ in range(len(s))]
+        dp = [0 for _ in range(len(s))]
+        dpPre = [0 for _ in range(len(s))]
 
-    #     for i in range(len(s)-1, -1, -1):
-    #         dp[i] = 1
-    #         for j in range(i+1, len(s)):
-    #             if s[i] == s[j]:
-    #                 dp[j] = 2 + dpPre[j-1]
-    #             else:
-    #                 dp[j] = max(dpPre[j], dp[j-1])
+        for i in range(len(s)-1, -1, -1):
+            dp[i] = 1
+            for j in range(i+1, len(s)):
+                if s[i] == s[j]:
+                    dp[j] = 2 + dpPre[j-1]
+                else:
+                    dp[j] = max(dpPre[j], dp[j-1])
             
-    #         dpPre = dp[:]
+            dpPre = dp[:]
 
-    #     return dp[len(s)-1]
+        return dp[len(s)-1]
 
 # Solution().longestPalindromeSubseq("cbbd")
 Solution().longestPalindromeSubseq("bbbab")
