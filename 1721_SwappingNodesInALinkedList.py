@@ -27,5 +27,22 @@ class Solution:
         start.val, end.val = end.val, start.val
         
         return head
+    
+    def swapNodes(self, head: ListNode, k: int) -> ListNode:
+        s, e, temp = None, None, head
+        
+        while temp:
+            k -= 1
+
+            if e:
+                e = e.next
+            if k == 0:
+                s = temp
+                e = head
+            temp = temp.next
+        
+        s.val, e.val = e.val, s.val
+
+        return head
 
             
