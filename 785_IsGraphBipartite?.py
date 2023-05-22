@@ -17,3 +17,19 @@ class Solution:
                 if not dfs(i):
                     return False
         return True
+    
+    def check(self, graph: list[list[int]], start: int, seen: dict) -> bool:
+        q = [(start, 1)]
+        while len(q):
+            pop, color = q.pop(0)
+            if pop in seen:
+                if seen[pop] != color:
+                    return False
+                continue
+
+    def isBipartite(self, graph: list[list[int]]) -> bool:
+        seen = {}
+
+        for i in range(len(graph)):
+            if i not in seen:
+        
