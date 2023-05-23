@@ -1,4 +1,5 @@
 import heapq
+import bisect
 
 class KthLargest:
     numList = []
@@ -33,6 +34,40 @@ class KthLargest_my:
         self.numList.append(val)
         self.numList = sorted(self.numList, reverse=True)
         return self.numList[self.k]
+    
+class KthLargest:
+    k = -1
+    nums = []
+    
+    def __init__(self, k: int, nums: list[int]):
+        self.k = -k
+        self.nums = sorted(nums)
+
+    def add(self, val: int) -> int:
+
+        idx = bisect.bisect_left(self.nums, val)
+        self.nums.insert(idx, val)
+
+
+        return self.nums[self.k]
+    
+class KthLargest:
+    k = -1
+    nums = []
+
+    def __init__(self, k: int, nums: list[int]):
+        heapq.heapify(nums)
+        self.nums = nums
+        self.k = k
+
+        while len(self.nums) > k:
+            heapq.heappop(self.nums)
+    
+    def add(self, val: int) -> int:
+        heapq.heappush(self.nums, val)
+        if len(self.nums) > self.k:
+            heapq.heappop(self.nums)
+        return self.nums[0]
 
 
 # ["KthLargest","add","add","add","add","add"]
@@ -40,8 +75,8 @@ class KthLargest_my:
 
 k = KthLargest(3, [4,5,8,2])
 
-k.add(3)
-k.add(5)
-k.add(10)
-k.add(9)
-k.add(4)
+print(k.add(3))
+print(k.add(5))
+print(k.add(10))
+print(k.add(9))
+print(k.add(4))
