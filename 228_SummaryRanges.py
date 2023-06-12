@@ -61,5 +61,78 @@ class Solution:
             summary.append(str(ranges[0]) + "->" + str(ranges[1]))
 
         return summary
+    
+class Solution:
+    def summaryRanges(self, A) -> list[str]:
 
-Solution.summaryRanges(Solution(), [0,1,2,4,5,7])
+        if len(A) == 0:
+            return []
+
+        ans = []
+        temp = []
+        temp.append(A[0])
+
+        for i in range(1, len(A)):
+            num = A[i]
+            if num - temp[-1] == 1:
+                temp.append(num)
+            else:
+                if len(temp) == 1:
+                    ans.append(str(temp[0]))
+                else:
+                    ans.append(str(temp[0]) + "->" + str(temp[-1]))
+                temp = []
+                temp.append(num)
+
+        if len(temp) == 1:
+             ans.append(str(temp[0]))
+        else:
+            ans.append(str(temp[0]) + "->" + str(temp[-1]))
+
+        return ans
+    
+    def summaryRanges(self, A):
+
+        i, j, res = 0, 0, []
+        N = len(A)
+
+        while i < N and j < N:
+            if j+1 < N and A[j+1] == A[j] + 1:
+                j += 1
+            else:
+                if i == j:
+                    res.append(str(A[i]))
+                    
+                else:
+                    res.append(str(A[i]) + "->" + str(A[j]))
+                    
+                i = j+1
+                j += 1
+
+        return res
+    
+    def summaryRanges(self ,A):
+
+        res = []
+        N = len(A)
+        i = 0
+        while i < N:
+            st = A[i]
+
+            while i + 1 < N and A[i]+1 == A[i+1]:
+                i += 1
+
+            if st == A[i]:
+                res.append(str(A[i]))
+            else:
+                res.append(str(st) + "->" + str(A[i]))
+            
+            i += 1
+
+            
+        return res
+
+
+
+
+print(Solution().summaryRanges([0,1,2,4,5,7]))
