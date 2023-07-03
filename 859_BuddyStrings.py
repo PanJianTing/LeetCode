@@ -159,6 +159,13 @@ class Solution:
             return False
                 
         return s[firstIdx] == goal[secondIdx] and s[secondIdx] == goal[firstIdx]
+    
+    def buddyStrings(self, s, goal) -> bool:
+        if len(s) != len(goal): return False
+        if s == goal and len(set(s)) < len(s): return True
+        dif = [(a,b) for a, b in zip(s, goal) if a != b]
+        return len(dif) == 2 and dif[0] == dif[1][::-1]
+
                     
 
 print(Solution().buddyStrings("ab", "ab"))
