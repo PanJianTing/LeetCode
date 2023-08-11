@@ -3,18 +3,19 @@ class Solution:
     def change(self, amount, coins) -> int:
         N = len(coins)
 
-        def find(a):
+        @cache
+        def find(a, idx):
             if a == 0:
                 return 1
             
             if a < 0:
                 return 0
             ans = 0
-            for coin in coins:
-                ans += find(a-coin)
+            for i in range(idx, N):
+                ans += find(a-coins[i], i)
             return ans
 
-        return find(amount)
+        return find(amount, 0)
     
     def achange(self, amount, coins) -> int:
         N = len(coins)
