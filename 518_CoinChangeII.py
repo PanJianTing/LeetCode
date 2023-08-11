@@ -107,9 +107,9 @@ class Solution:
         dp[0] = 1
 
         for i in range(0, N):
-            for a in range(1, amount+1):
-                if coins[i] <= a:
-                    dp[a] += dp[a-coins[i]]
+            for a in range(coins[i], amount+1):
+                # if coins[i] <= a:
+                dp[a] += dp[a-coins[i]]
                     
         return dp[amount]
 
