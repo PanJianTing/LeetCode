@@ -107,8 +107,19 @@ class Solution:
         dp[0] = 1
 
         for i in range(0, N):
+            for a in range(1, amount+1):
+                if coins[i] <= a:
+                    dp[a] += dp[a-coins[i]]
+                    
+        return dp[amount]
+    
+    def change(self, amount, coins) -> int:
+        N = len(coins)
+        dp = [0] * (amount + 1)
+        dp[0] = 1
+
+        for i in range(0, N):
             for a in range(coins[i], amount+1):
-                # if coins[i] <= a:
                 dp[a] += dp[a-coins[i]]
                     
         return dp[amount]
