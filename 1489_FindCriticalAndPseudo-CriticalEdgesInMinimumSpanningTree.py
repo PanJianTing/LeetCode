@@ -58,7 +58,7 @@ class Solution:
             force_weight = w
             force_uf.union(u, v)
             for x, y, w_force, j in new_edges:
-                if  force_uf.union(x, y):
+                if  i != j and force_uf.union(x, y):
                     force_weight += w_force
                 
             if force_weight == std_weight:
