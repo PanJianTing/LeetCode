@@ -1,25 +1,4 @@
-from inspect import stack
-from typing import Counter
-
-
-# class Solution:
-#     def removeDuplicateLetters(self, s: str) -> str:
-
-#         # find pos - the index of the leftmost letter in our solution
-#         # we create a counter and end the iteration once the suffix doesn't have each unique character
-#         # pos will be the index of the smallest character we encounter before the iteration ends
-
-#         c = Counter(s)
-#         pos = 0
-#         for i in range(len(s)):
-#             if s[i] < s[pos]:
-#                 pos = i
-#             c[s[i]] -= 1
-#             if c[s[i]] == 0:
-#                 break
-#         # our answer is the leftmost letter plus the recursive call on the remainder of the string
-#         # note we have to get rid of further occurrences of s[pos] to ensure that there are no duplicates
-#         return s[pos] + self.removeDuplicateLetters(s[pos:].replace(s[pos], "")) if s else ''
+from collections import Counter, defaultdict
 
 class Solution:
     def removeDuplicateLetters(self, s) -> int:
@@ -48,7 +27,74 @@ class Solution:
                 seen.add(char)
                 stack.append(char)
         return ''.join(stack)
+    
+
+from collections import Counter, defaultdict
+
+class Solution:
+    def removeDuplicateLetters(self, s):
+
+        N = len(s)
+        char_dic = Counter(s)
+        idx = 0
+
+        for i in range(N):
+            if s[i] < s[idx]:
+                idx = i
+            char_dic[s[i]] -= 1
+            if char_dic[s[i]] == 0:
+                break
+
+        return "" if N == 0 else s[idx] + self.removeDuplicateLetters(s[idx:].replace(s[idx], ""))
+    
+    def removeDuplicateLetters(self, s):
+
+        char_map = Counter(s)
+
+        st = []
+
+        seen = set()
+
+        for c in s:
+
+            if c not in seen:
+                
+                while st and c < st[-1] and char_map[st[-1]] > 0:
+                    seen.remove(st.pop())
+                
+                
+                st.append(c)
+                seen.add(c)
+            char_map[c] -= 1
+        
+        return "".join(st)
+    
+    def removeDuplicateLetters(self, s):
+
+        last_idx_map = defaultdict(int)
+
+        st = []
+
+        seen = set()
+
+        for i, c in enumerate(s):
+            last_idx_map[c] = i
+
+        for i, c in enumerate(s):
+
+            if c not in seen:
+                
+                while st and c < st[-1] and last_idx_map[st[-1]] > i:
+                    seen.remove(st.pop())
+
+                st.append(c)
+                seen.add(c)
+        
+        return "".join(st)
 
 
 
-Solution().removeDuplicateLetters("cbacdcbc")
+print(Solution().removeDuplicateLetters('bbcaac'))
+print(Solution().removeDuplicateLetters('ecbacba'))
+print(Solution().removeDuplicateLetters('bcabc'))
+print(Solution().removeDuplicateLetters('cbacdcbc'))
