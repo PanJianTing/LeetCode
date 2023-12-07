@@ -1,6 +1,4 @@
 class Solution:
-
-
     def largestOddNumber(self, num: str) -> str:
 
         for i in range(len(num)-1, -1 ,-1):
@@ -24,3 +22,15 @@ class Solution:
         if largest == 0:
             return ""
         return str(largest)
+
+    def largestOddNumber(self, num: str) -> str:
+        N = len(num)
+        odds = set("13579")
+        for i in range(N-1, -1, -1):
+            if num[i] in odds:
+                return num[:i+1]
+        return ""
+    
+print(Solution().largestOddNumber("52"))
+print(Solution().largestOddNumber("4206"))
+print(Solution().largestOddNumber("35427"))
