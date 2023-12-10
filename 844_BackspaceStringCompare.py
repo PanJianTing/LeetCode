@@ -92,6 +92,45 @@ class Solution:
             j -= 1
         return True
 
+
+class Solution:
+    def check(self, s: str) -> list:
+        
+        sAfter = []
+        for char in s:
+            if char == "#":
+                sAfter = sAfter[:-1]
+            else:
+                sAfter.append(char)
+
+        return sAfter
+
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        return self.check(s) == self.check(t)
+
+    
+
+    def backspaceCompare_my(self, s: str, t: str) -> bool:
+
+        s = list(s)
+        t = list(t)
+
+        sAfter = []
+        tAfter = []
+
+        for char in s:
+            if char == "#":
+                sAfter = sAfter[:-1]
+            else:
+                sAfter.append(char)
+
+        for char in t:
+            if char == "#":
+                tAfter = tAfter[:-1]
+            else:
+                tAfter.append(char)
+
+        return sAfter == tAfter
     
 
 
