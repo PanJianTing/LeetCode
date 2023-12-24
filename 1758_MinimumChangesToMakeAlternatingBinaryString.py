@@ -53,6 +53,55 @@ class Solution:
 
             
         return min(diff1, diff0)
+    
+
+    def minOperations(self, s):
+        N = len(s)
+        ans1 = 0
+        ans0 = 0
+
+        for i, c in enumerate(s):
+            if i % 2:
+                if c == '0':
+                    ans1 += 1
+                else:
+                    ans0 += 1
+            else:
+                if c == '0':
+                    ans0 += 1
+                else:
+                    ans1 += 1
+
+        return min(ans1, ans0)
+    
+    def minOperations(self, s):
+        N = len(s)
+        ans = 0
+
+        for i, c in enumerate(s):
+            if i % 2:
+                if c == '1':
+                    ans += 1
+            else:
+                if c == '0':
+                    ans += 1
+
+        return min(ans, N - ans)
+    
+    def minOperations(self, s):
+        N = len(s)
+        curZero = True
+        change1 = 0
+
+        for c in s:
+            if not (curZero == (c == '0')):
+                change1 += 1
+                
+            curZero = not curZero
+
+        return min(change1, N - change1)
 
 
-Solution.minOperations(Solution(), '0100')
+print(Solution().minOperations('0100'))
+print(Solution().minOperations('10'))
+print(Solution().minOperations('1111'))
