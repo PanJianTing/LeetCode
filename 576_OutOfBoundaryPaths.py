@@ -30,7 +30,7 @@ class Solution:
             maxMove -= 1
         return ans
     
-    def findPatshs(self, m, n, maxMove, startRow, startColumn) -> int:
+    def findPaths(self, m, n, maxMove, startRow, startColumn) -> int:
 
         dirs = [(0,1), (0, -1), (1, 0), (-1, 0)]
         MOD = 10 ** 9 + 7
@@ -50,6 +50,67 @@ class Solution:
                 return 1
         
         return dp(startRow, startColumn, maxMove) % MOD
+    
+    # TLE
+    def findPaths(self, m, n, maxMove, r, c) -> int:
+        
+        if r < 0 or r >= m or c < 0 or c >= n:
+            return 1
+        if maxMove == 0:
+            return 0
+        
+        MOD = 10 ** 9 + 7
+        dir1 = self.findPaths(m, n, maxMove-1, r-1, c)
+        dir2 = self.findPaths(m, n, maxMove-1, r+1, c)
+        dir3 = self.findPaths(m, n, maxMove-1, r, c-1)
+        dir4 = self.findPaths(m, n, maxMove-1, r, c+1)
+        
+        return (dir1 + dir2 + dir3 + dir4) % MOD
+    
+    def findPaths(self, m, n, maxMove, startR, startC) -> int:
+        MOD = 10 ** 9 + 7
+        
+        @cache
+        def recursion(r, c, move) -> int:
+            if r < 0 or c < 0 or r >= m or c >= n:
+                return 1
+            if move == 0:
+                return 0
+            return recursion(r+1, c, move-1) + recursion(r-1, c, move-1) + recursion(r, c+1, move-1) + recursion(r, c-1, move-1)
+        
+        return recursion(startR, startC, maxMove) % MOD
+    
+
+    def findPaths(self, m, n, maxMove, startR, startC) -> int:
+        MOD = 10 ** 9 + 7
+        res = 0
+        dp = [[0] * n for _ in range(m)]
+
+        dp[startR][startC] = 1
+
+        for _ in range(maxMove):
+            temp = [[0] * n for _ in range(m)]
+            for i in range(m):
+                for j in range(n):
+                    if i == m - 1:
+                        res += dp[i][j]
+                    if j == n - 1:
+                        res += dp[i][j]
+                    if i == 0:
+                        res += dp[i][j]
+                    if j == 0:
+                        res += dp[i][j]
+                    
+                    if i-1 >= 0:
+                        temp[i][j] += dp[i-1][j]
+                    if i+1 < m:
+                        temp[i][j] += dp[i+1][j]
+                    if j-1 >= 0:
+                        temp[i][j] += dp[i][j-1]
+                    if j+1 < n:
+                        temp[i][j] += dp[i][j+1]
+            dp = temp
+        return res % MOD
 
                 
     
