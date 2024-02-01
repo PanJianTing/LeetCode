@@ -1,5 +1,26 @@
 class Solution:
     def divideArray(self, nums: list[int], k: int) -> list[list[int]]:
+
+        ans = []
+        N = len(nums)
+        nums.sort()
+        all_set = N // 3
+            
+        i = 0
+        for _ in range(all_set):
+            temp = []
+            for _ in range(3):
+                temp.append(nums[i])
+                i += 1
+            ans.append(temp)
+
+        for i in range(all_set):
+            if ans[i][2] - ans[i][0] > k:
+                return []
+
+        return ans
+
+    def divideArray(self, nums: list[int], k: int) -> list[list[int]]:
         N = len(nums)
         nums.sort()
         
