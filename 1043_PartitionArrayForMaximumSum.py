@@ -44,6 +44,18 @@ class Solution:
 
         return dp[0]
 
+    def maxSumAfterPartitioning(self, arr: list[int], k: int) -> int:
+        N = len(arr)
+        dp_length = k+1
+        dp = [0] * dp_length
+        
 
+        for i in range(N-1, -1, -1):
+            cur_max = 0
+            for j in range(i, min(i+k, N)):
+                cur_max = max(cur_max, arr[j])
+                dp[i%dp_length] = max(dp[i%dp_length], cur_max * (j-i+1) + dp[(j+1) % (dp_length)])
+
+        return dp[0]
 
 print(Solution().maxSumAfterPartitioning([1,15,7,9,2,5,10], 3))
