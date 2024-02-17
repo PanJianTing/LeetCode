@@ -167,6 +167,20 @@ class Solution:
         
         return lo
     
+    def furthestBuilding(self, heights: list[int], bricks: int, ladders: int) -> int:
+        N = len(heights)
+        hq = []
+
+        for i in range(N-1):
+            diff = heights[i+1] - heights[i]
+            if diff > 0:
+                heapq.heappush(hq, diff)
+            if len(hq) > ladders:
+                bricks -= heapq.heappop(hq)
+            if bricks < 0:
+                return i
+        return N-1
+    
 print(Solution().furthestBuilding([4,2,7,6,9,14,12], 5, 1))
 print(Solution().furthestBuilding([4,12,2,7,3,18,20,3,19], 10, 2))
 print(Solution().furthestBuilding([14,3,19,3], 17, 0))
