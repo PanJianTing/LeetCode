@@ -26,3 +26,13 @@ class Solution:
                 return True
             
         return False
+    def hasCycle(self, head: ListNode) -> bool:
+        num = set()
+        cur = head
+
+        while cur:
+            if cur in num:
+                return True
+            num.add(cur)
+            cur = cur.next
+        return False
