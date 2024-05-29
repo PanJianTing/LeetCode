@@ -1,16 +1,7 @@
+from bisect import bisect_left
+
 class Solution:
-
-	def specialArray_Not_UNDERSTAND(self, nums: list[int]) -> int:
-		nums.sort(reverse=True)
-		i = 0
-		while i < len(nums) and nums[i] > i:
-			i += 1
-		return i
-
-
-
 	def specialArray(self, nums: list[int]) -> int:
-
 		ans = 0
 
 		while ans <= len(nums):
@@ -24,3 +15,35 @@ class Solution:
 			ans += 1
 
 		return -1
+	
+	def specialArray(self, nums: list[int]) -> int:
+
+		N = len(nums)
+		nums.sort()
+
+		for x in range(1, N+1):
+			idx = bisect_left(nums, x)
+			if x == (N-idx):
+				return x
+
+		return -1
+	
+	def specialArray(self, nums: list[int]) -> int:
+		N = len(nums)
+		freqs = [0] * (N+1)
+
+		for i in range(N):
+			freqs[min(N, nums[i])] += 1
+
+		suffixSum = 0
+		for x in range(N, 0, -1):
+			suffixSum += freqs[x]
+			if x == suffixSum:
+				return x
+		return -1
+	
+	
+
+print(Solution().specialArray([3, 5]))
+print(Solution().specialArray([0,0]))
+print(Solution().specialArray([0,4,3,0,4]))
