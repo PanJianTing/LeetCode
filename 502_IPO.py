@@ -3,63 +3,51 @@ import heapq
 
 class Solution:
     def findMaximizedCapital(self, k: int, w: int, profits: list[int], capital: list[int]) -> int:
+        N = len(profits)
+        capital_hq = []
+        profit_hq = []
+        res = w
+        idx = 0
 
-        nowCap = w
-        leaveProject = k
+        for p, c in zip(profits, capital):
+            if res >= c:
+                heapq.heappush(profit_hq, (-p, c))
+            else:
+                heapq.heappush(capital_hq, (c, -p))
+        
+        while profit_hq and idx < k:
+            cur_p, cur_c = heapq.heappop(profit_hq)
+            res += (-1 * cur_p)
 
-        proMap = defaultdict(list)
-
-        for i in range(0, len(capital)):
-            cap = capital[i]
-            pro = profits[i]
-
-            proMap[pro].append(cap)
-
-        # for key in proMap.keys():
-        #     proMap[key] = sorted(proMap[key])
-
-        sortedPro = sorted(proMap.keys())
-
-        while leaveProject > 0:
-
-            for i in range(len(sortedPro)-1, -1, -1):
-                pro = sortedPro[i]
-                capList = proMap[pro]
-                isDo = False
-
-                for j in range(0, len(capList)):
-                    cap = capList[j]
-                    if cap <= nowCap:
-                        isDo = True
-                        del capList[j]
-                        break
-                if isDo:
-                    nowCap += pro
-                    break
-            leaveProject -= 1
-        print(nowCap)
-        return nowCap
+            while capital_hq and res >= capital_hq[0][0]:
+                add_c, add_p = heapq.heappop(capital_hq)
+                heapq.heappush(profit_hq, (add_p, add_c))
+            idx += 1
+        return res
     
     def findMaximizedCapital(self, k: int, w: int, profits: list[int], capital: list[int]) -> int:
+        N = len(profits)
+        pro_list = []
+        idx = 0
+        res = w
+        hq = []
 
-        n = len(capital)
-        project = list(zip(capital, profits))
-        project.sort()
-        print(project)
+        for c, p in zip(capital, profits):
+            pro_list.append((c, p))
+        
+        pro_list.sort()
 
-        q = []
-        ptr = 0
-        for i in range(0, k):
-            while ptr < n and project[ptr][0] <= w:
-                heapq.heappush(q, -project[ptr][1])
-                ptr += 1
-            if not q:
+        for _ in range(k):
+            while idx < N and pro_list[idx][0] <= res:
+                heapq.heappush(hq, -pro_list[idx][1])
+                idx += 1
+
+            if len(hq) == 0:
                 break
-            w += -heapq.heappop(q)
+            res += -1 * heapq.heappop(hq)
+        return res
 
-        return w
-
-
-
+        
 print(Solution().findMaximizedCapital(2, 0, [1,2,3], [0,1,1]))
 print(Solution().findMaximizedCapital(3, 0, [3,2,1], [0,1,2]))
+print(Solution().findMaximizedCapital(1, 2, [1,2,3], [1,1,2]))
