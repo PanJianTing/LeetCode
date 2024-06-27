@@ -1,32 +1,40 @@
+from collections import defaultdict
+
 class Solution:
-	# 只判斷前兩個點，取兩個點共有的
-	def findCenter(self, edges: list[list[int]]) -> int:
-		#取前兩點做set，做交集。
-		return (set(edges[0]) & set(edges[1])).pop()
+    def findCenter(self, edges: list[list[int]]) -> int:
+        N = len(edges)
+        cnt_map = defaultdict(int)
 
-	def findCenter_my(self, edges: list[list[int]]) -> int:
+        for u, v in edges:
+            cnt_map[u] += 1
+            cnt_map[v] += 1
 
-		starMap = {}
-		count = len(edges)
+            if cnt_map[u] == N:
+                return u
+            if cnt_map[v] == N:
+                return v
+        
+        return -1
+    
+    def findCenter(self, edges: list[list[int]]) -> int:
+        N = len(edges)
+        cnt_map = defaultdict(int)
 
-		for edge in edges:
-			x = edge[0]
-			y = edge[1]
+        for u, v in edges:
+            cnt_map[u] += 1
+            cnt_map[v] += 1
 
-			if x in starMap:
-				starMap[x] += 1
-			else:
-				starMap[x] = 1
+            if cnt_map[u] > 1:
+                return u
+            if cnt_map[v] > 1:
+                return v
+        
+        return -1
+    
+    def findCenter(self, edges: list[list[int]]) -> int:
+        
+        return edges[0][0] if (edges[0][0] == edges[1][0]) or (edges[0][0] == edges[1][1]) else edges[0][1]
+    
 
-			if y in starMap:
-				starMap[y] += 1
-			else:
-				starMap[y] = 1
-
-			if starMap[x] == count:
-				return x
-
-			if starMap[y] == count:
-				return y
-
-		return -1
+print(Solution().findCenter([[1,2],[2,3],[4,2]]))
+print(Solution().findCenter([[1,2],[5,1],[1,3],[1,4]]))
