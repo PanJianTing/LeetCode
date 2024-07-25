@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 class Solution:
     # in real lift
     def sortArray(self, nums: list[int]) -> list[int]:
@@ -145,7 +147,30 @@ class Solution:
     def sortArray(self, nums: list[int]) -> list[int]:
 
         return self.radix_sort(nums)
+    
+    def sortArray(self, nums: list[int]) -> list[int]:
+        return sorted(nums)
+    
+    def sortArray(self, nums: list[int]) -> list[int]:
 
+        def countSort():
+            minVal, maxVal = min(nums), max(nums)
+            cnt_map = defaultdict(int)
+
+            for n in nums:
+                cnt_map[n] += 1
+            
+            idx = 0
+            for n in range(minVal, maxVal+1):
+                while cnt_map[n] > 0:
+                    nums[idx] = n
+                    idx += 1
+                    cnt_map[n] -= 1
+        countSort()
+        return nums
+
+            
+    
         
     
 # print(Solution().sortArray([5, 2, 3, 1]))
