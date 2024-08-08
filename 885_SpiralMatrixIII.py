@@ -55,20 +55,16 @@ class Solution:
     
     def spiralMatrixIII(self, rows: int, cols: int, rStart: int, cStart: int) -> list[list[int]]:
         step = 1
-        curR = rStart
-        curC = cStart
-        ans = [[curR, curC]]
+        ans = [[rStart, cStart]]
 
         while len(ans) < rows * cols:
-
             for dr, dc, d in [[0, 1, step], [1, 0, step], [0, -1, step + 1], [-1, 0, step + 1]]:
                 for _ in range(d):
-                    curR += dr
-                    curC += dc
+                    rStart += dr
+                    cStart += dc
 
-                    if 0 <= curR < rows and 0 <= curC < cols:
-                        ans.append([curR, curC])
-            
+                    if 0 <= rStart < rows and 0 <= cStart < cols:
+                        ans.append([rStart, cStart])
             step += 2
 
         return ans
