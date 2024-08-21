@@ -1,49 +1,44 @@
 from functools import cache
 
-'''
-dp[i, m] = maximum stones the current player can get from piles[i:] with M=m
-A[i]= total stones of piles[i:]
-when current player pick stones from i to i+x-1
--> the other player's stones: dp[i+x, max(m, x)]
--> total stones of current player: A[i] - dp[i+x, max(m, x)]
-we want the current player gets maximum means the other player gets minimum
-'''
-
 class Solution:
-    def stoneGameII(self, A: list[int]) -> int:
-        
+    def stoneGameII(self, piles: list[int]) -> int:
+        N = len(piles)
+        suffix = list(piles)
+
+        for i in range(N-2, -1, -1):
+            suffix[i] += suffix[i+1]
+
         @cache
-        def f(p, i, m) -> int:
-            if i == len(A):
-                return 0
-            res = 1000000 if p == 1 else -1
-            s = 0
+        def dp(cur, max_idx):
+            if cur + 2 * max_idx >= N:
+                return suffix[cur]
             
-            for x in range(1, min(2 * m, len(A) - i) + 1):
-                s += A[i + x - 1]
-                if p == 0:
-                    res = max(res, s + f(1, i+x, max(m, x)))
-                else:
-                    res = min(res, f(0, i + x, max(m, x)))
+            res = float('inf')
+            for i in range(1, 2 * max_idx+1):
+                res = min(res, dp(cur+i, max(max_idx, i)))
+            
+            return suffix[cur] - res
 
-            return res
-        return f(0, 0, 1)
-    
-    def stoneGameII(self, A: list[int]) -> int:
-        N = len(A)
-        for i in range(N - 2, -1, -1):
-            print(i)
-            A[i] += A[i+1]
-        
-        @cache
-        def dp(i, m):
-            print(i, m)
-            if i + 2 * m >= N: return A[i]
-            # 減掉對手拿最少數量的。
-            return A[i] - min(dp(i + x, max(m, x)) for x in range(1, 2*m+1))
-        
         return dp(0, 1)
+    
+    def stoneGameII(self, piles: list[int]) -> int:
+        N = len(piles)
+        dp = [[0] * (N+1) for _ in range(N+1)]
 
+        suffix = [0] * (N+1)
 
-# print(Solution().stoneGameII([2, 7, 9, 4, 4]))
-print(Solution().stoneGameII([1, 2, 3, 4, 5, 100]))
+        for i in range(N-1, -1, -1):
+            suffix[i] += suffix[i+1] + piles[i]
+
+        for i in range(N+1):
+            dp[i][N] = suffix[i]
+        
+        for i in range(N-1, -1, -1):
+            for j in range(N-1, 0, -1):
+                for k in range(1, min(j << 1, N - i) + 1):
+                    dp[i][j] = max(dp[i][j], suffix[i] - dp[i + k][max(j, k)])
+
+        return dp[0][1]
+    
+print(Solution().stoneGameII([2,7,9,4,4]))
+print(Solution().stoneGameII([1,2,3,4,5,100]))
