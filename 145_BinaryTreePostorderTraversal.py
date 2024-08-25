@@ -1,43 +1,36 @@
 class TreeNode:
-	def __init__(self, val=0, left=None, right=None):
-		self.val = val
-		self.left = left
-		self.right = right
-
-
-class Solution:
-	def postorderTraversal(self, root: Optional[TreeNode]) -> list[int]:
-		if root == None:
-			return []
-		stack = []
-		result = []
-
-		while root or stack != []:
-			while root:
-				stack.append(root)
-				root = root.left
-			temp = stack[-1].right
-			if temp:
-				root = temp
-			else:
-				temp = stack.pop()
-				result.append(temp.val)
-				while stack and temp == stack[-1].right:
-					temp = stack.pop()
-					result.append(temp.val)
-
-		return result
+    def __init__(self, val = 0, left = None, right = None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 class Solution:
-	def postorderTraversal(self, root: Optional[TreeNode]) -> list[int]:
+    def postorderTraversal(self, root: TreeNode) -> list[int]:
+        self.res = []
 
-		nums = []
+        def postorder(cur):
+            if cur == None:
+                return
+            
+            postorder(cur.left)
+            postorder(cur.right)
+            self.res.append(cur.val)
+        postorder(root)
+        return self.res
+    
+    def postorderTraversal(self, root: TreeNode) -> list[int]:
+        res = []
+        st = []
+        cur = root
 
-		if root == None:
-			return []
-		else:
-			nums.extend(self.postorderTraversal(root.left))
-			nums.extend(self.postorderTraversal(root.right))
-			nums.append(root.val)
-		return nums
+        while cur or st:
+            if cur:
+                res.append(cur.val)
+                st.append(cur)
+                cur = cur.right
+            else:
+                cur = st.pop()
+                cur = cur.left
+        res.reverse()
+        return res
 
