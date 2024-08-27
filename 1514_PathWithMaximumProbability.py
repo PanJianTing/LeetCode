@@ -120,13 +120,3 @@ class Solution:
 
 # Solution().maxProbability()
 print(Solution().maxProbability(4, [[0,1], [0,2], [1,2], [1,3], [2,3]], [0.8, 0.3, 0.8, 1, 1], 0, 2))
-
-
-
-
-
-
-
-
-
-            
