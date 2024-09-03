@@ -1,38 +1,70 @@
 class Solution:
-	def getLucky(self, s: str, k : int) -> int:
+    def getLucky(self, s: str, k: int) -> int:
+        N = len(s)
+        num_list = []
+        res = 0
 
-		res = ""
+        for c in s:
+            num_list.append(str((ord(c) - ord('a')) + 1))
+        
+        cur_num_str = ''.join(num_list)
 
-		for c in s:
-			res += str(ord(c) - ord('a') + 1)
+        for c in cur_num_str:
+            res += int(c)
+        k -= 1
+        while k > 0:
+            if res < 10:
+                break
+            temp = 0
+            while res > 0:
+                temp += res % 10
+                res //= 10
 
-		for step in range(0,k):
+            res = temp
+            k -= 1
+        return res
+    
+    def getLucky(self, s: str, k: int) -> int:
+        N = len(s)
+        res = 0
+        cur_num_str = ''
 
-			res = str(sum(map(int ,res)))
+        for c in s:
+            cur_num_str += str((ord(c) - ord('a')) + 1)
 
-		return res
+        res = int(cur_num_str)
+        while k > 0:
+            if len(cur_num_str) < 2:
+                break
+            temp_sum = 0
+            for c in cur_num_str:
+                temp_sum += int(c)
+            
+            res = temp_sum
+            cur_num_str = str(temp_sum)
+            k -= 1
+        return res
+    
+    def getLucky(self, s: str, k: int) -> int:
+        res = 0
 
+        for c in s:
+            c_num = ord(c) - ord('a') + 1
+            res += (c_num // 10 + c_num % 10)
+        k -= 1
+        while k > 0:
+            if res < 10:
+                return res
+            temp_sum = 0
+            while res > 0:
+                temp_sum += (res % 10)
+                res //= 10
+            
+            res = temp_sum
+            k -= 1
+        return res
+    
 
-	def getLucky(self, s: str, k: int) -> int:
-
-		alphabetMap = {"a":1, "b":2, "c":3, "d":4, "e":5, "f":6, "g":7, "h":8, 
-		"i":9, "j":1, "k":2, "l":3, "m":4, "n":5, "o":6, "p":7, "q":8, "r":9, 
-		"s":10, "t":2, "u":3, "v":4, "w":5, "x":6, "y":7, "z":8}
-
-		sum = 0
-
-		# s to int
-		for c in s:
-			sum += alphabetMap[c]
-
-		for step in range(1,k):
-			temp = 0
-
-			while sum > 0:
-				temp += sum % 10
-				sum //= 10
-
-			sum = temp
-
-		return sum
-
+print(Solution().getLucky('iiii', 1))
+print(Solution().getLucky('leetcode', 2))
+print(Solution().getLucky('zbax', 2))
