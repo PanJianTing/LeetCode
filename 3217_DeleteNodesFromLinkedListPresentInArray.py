@@ -17,6 +17,21 @@ class Solution:
             cur = cur.next
         pre.next = None
         return dummy.next
+    
+
+    def modifiedList(self, nums: list[int], head: ListNode) -> ListNode:
+        dummy = ListNode(-1, head)
+        pre = dummy
+        cur = head
+        nums = set(nums)
+
+        while cur:
+            if cur.val in nums:
+                pre.next = cur.next
+            else:
+                pre = cur
+            cur = cur.next
+        return dummy.next
 
 
 node1 = ListNode(1)
