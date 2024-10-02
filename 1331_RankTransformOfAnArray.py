@@ -66,6 +66,22 @@ class Solution:
             res.append(rank_map[n])
 
         return res
+    
+    def arrayRankTransform(self, arr: list[int]) -> list[int]:
+        N = len(arr)
+        idx_map = {k: [] for k in sorted(set(arr))}
+
+        for i, n in enumerate(arr):
+            idx_map[n].append(i)
+
+        rank = 1
+        for n in idx_map.keys():
+            for idx in idx_map[n]:
+                arr[idx] = rank
+            rank += 1
+        
+        return arr
+            
 
 
 
