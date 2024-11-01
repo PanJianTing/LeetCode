@@ -1,45 +1,37 @@
 class Solution:
-    # 都先加上，用isMax來決定要不要過濾掉
     def makeFancyString(self, s: str) -> str:
-
-        result = ""
-        before = ""
-        isMax = False
+        ans = []
+        pre_c = ""
+        cur_cnt = 0
 
         for c in s:
-            if before == c:
-                # 第三次以上
-                if isMax == True:
-                    continue
-                else:
-                    # 加第二次
-                    isMax = True
+            if pre_c == c:
+                cur_cnt += 1
             else:
-                # 加第一次
-                before = c
-                isMax = False
+                pre_c = c
+                cur_cnt = 1
+            
+            if cur_cnt < 3:
+                ans.append(c)
 
-            result += c
-        return result
+        return "".join(ans)
+    
 
-    def makeFancyString_my(self, s: str) -> str:
+    def makeFancyString(self, s: str) -> str:
+        N = len(s)
+        if N < 3:
+            return s
+
+        left = 2
+        s = list(s)
+
+        for right in range(2, N):
+            if (s[right] != s[left-1] or s[right] != s[left-2]):
+                s[left] = s[right]
+                left += 1
         
-        result = ""
-        beforeC = ""
-        nowCCount = 0
-
-
-        for c in s:
-            if beforeC == c:
-                nowCCount += 1
-            else:
-                nowCCount = 1
-            
-            if nowCCount < 3:
-                result += c
-            
-            beforeC = c
-        return result
-
-
-Solution.makeFancyString(Solution(), "leeetcode")
+        return "".join(s[:left])
+    
+# print(Solution().makeFancyString("leeetcode"))
+print(Solution().makeFancyString("aaabaaaa"))
+print(Solution().makeFancyString("aab"))
