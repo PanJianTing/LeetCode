@@ -1,24 +1,44 @@
 class Solution:
     def compressedString(self, word: str) -> str:
-        word = word + "."
+        word += "_"
         N = len(word)
-        res = ""
-        pre = ""
-        cnt = 0
+        cnt = 1
+        pre = word[0]
+        ans = []
 
-        for i in range(N):
-            if pre == word[i] and cnt < 9:
+        for i in range(1, N):
+            if word[i] == pre and cnt < 9:
                 cnt += 1
             else:
-                if pre != "":
-                    res += (str(cnt) + pre)
+                ans.append(str(cnt))
+                ans.append(pre)
                 pre = word[i]
                 cnt = 1
-
-        return res
+        
+        return ''.join(ans)
     
-print(Solution().compressedString('abcde'))
-print(Solution().compressedString('aaaaaaaaaaaaaabb'))
+    def compressedString(self, word: str) -> str:
+        N = len(word)
+        idx = 0
+        ans = []
 
+        while idx < N:
+            cur = word[idx]
+            cnt = 0
+
+            while idx < N and cnt < 9 and cur == word[idx]:
+                idx += 1
+                cnt += 1
+
+            ans.append(str(cnt))
+            ans.append(cur)
+        
+        return ''.join(ans)
+            
+
+    
+
+print(Solution().compressedString("abcde"))
+print(Solution().compressedString("aaaaaaaaaaaaaabb"))
             
 
