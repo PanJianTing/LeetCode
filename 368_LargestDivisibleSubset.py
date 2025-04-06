@@ -136,7 +136,27 @@ class Solution:
         for i in range(N):
             ans = max([ans, dp(i)], key=len)
         return ans
+    
 
+    def largestDivisibleSubset(self, nums: list[int]) -> list[int]:
+        N = len(nums)
+        nums.sort()
+        EDS = [[]] * N
+        res = []
+
+        for i in range(N):
+            max_subset = []
+
+            for k in range(i):
+                if nums[i] % nums[k] == 0 and len(max_subset) < len(EDS[k]):
+                    max_subset = EDS[k]
+            
+            EDS[i] = max_subset + [nums[i]]
+
+        for i in range(N):
+            if len(res) < len(EDS[i]):
+                res = EDS[i]
+        return res
     
 print(Solution().largestDivisibleSubset([4,8,10,240]))
 print(Solution().largestDivisibleSubset([2,3,4,9,8]))
